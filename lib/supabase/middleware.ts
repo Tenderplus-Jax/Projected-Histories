@@ -1,6 +1,30 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const protectedPathnames = [
+  "/",
+  "/announcements",
+  "/documents",
+  "/meetings",
+  "/my-work",
+  "/reports",
+  "/risks-and-issues",
+  "/settings",
+  "/suppliers",
+  "/tasks",
+  "/team",
+  "/timeline",
+  "/workstreams",
+  "/admin",
+];
+
+function isProtectedPath(pathname: string) {
+  return (
+    pathname === "/" ||
+    protectedPathnames.some((entry) => entry !== "/" && pathname.startsWith(entry))
+  );
+}
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -35,30 +59,55 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const pathname = request.nextUrl.pathname;
-  const isAuthRoute = pathname === "/login";
-  const isProtectedRoute =
-    pathname === "/" ||
-    pathname.startsWith("/announcements") ||
-    pathname.startsWith("/documents") ||
-    pathname.startsWith("/meetings") ||
-    pathname.startsWith("/my-work") ||
-    pathname.startsWith("/reports") ||
-    pathname.startsWith("/risks-and-issues") ||
-    pathname.startsWith("/settings") ||
-    pathname.startsWith("/suppliers") ||
-    pathname.startsWith("/tasks") ||
-    pathname.startsWith("/team") ||
-    pathname.startsWith("/timeline") ||
-    pathname.startsWith("/workstreams");
+  const isPendingRoute = pathname === "/pending-approval";
 
-  if (!user && isProtectedRoute) {
-    const loginUrl = new URL("/login", request.url);
-    return NextResponse.redirect(loginUrl);
+  if (!user) {
+    if (isProtectedPath(pathname)) {
+      const loginUrl = new URL("/login", request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    return supabaseResponse;
   }
 
-  if (user && isAuthRoute) {
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("id, is_admin")
+    .eq("auth_user_id", user.id)
+    .maybeSingle();
+
+  const { data: membership } = profile
+    ? await supabase.from("project_memberships").select("status").eq("user_id", profile.id).maybeSingle()
+    : { data: null };
+
+  const membershipStatus = membership?.status ?? "pending";
+  const isApproved = membershipStatus === "approved";
+  const isAdmin = profile?.is_admin ?? false;
+
+  if (pathname === "/login" || pathname === "/register") {
+    const destination = isApproved ? "/" : "/pending-approval";
+    const redirectUrl = new URL(destination, request.url);
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  if (isPendingRoute && isApproved) {
     const homeUrl = new URL("/", request.url);
     return NextResponse.redirect(homeUrl);
+  }
+
+  if (pathname === "/admin") {
+    if (!isAdmin) {
+      const destination = isApproved ? "/" : "/pending-approval";
+      const redirectUrl = new URL(destination, request.url);
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    return supabaseResponse;
+  }
+
+  if (isProtectedPath(pathname) && !isApproved) {
+    const pendingUrl = new URL("/pending-approval", request.url);
+    return NextResponse.redirect(pendingUrl);
   }
 
   return supabaseResponse;

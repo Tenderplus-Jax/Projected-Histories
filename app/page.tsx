@@ -3,9 +3,26 @@ import { ActivityPreview, MyWorkPreview } from "@/components/dashboard/placehold
 import { ProjectStatusCard } from "@/components/dashboard/project-status-card";
 import { TimelinePreview } from "@/components/dashboard/timeline-preview";
 import { PageHeader } from "@/components/ui/page-header";
-import { projectConfig } from "@/lib/project-config";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createSupabaseServerClient();
+  const { data: userData } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
+
+  let firstName = "";
+
+  if (userData.user) {
+    const { data: profile } = await supabase!
+      .from("profiles")
+      .select("first_name")
+      .eq("auth_user_id", userData.user.id)
+      .maybeSingle();
+
+    firstName = profile?.first_name ?? "";
+  }
+
+  const welcomeHeading = firstName ? `Welcome, ${firstName}` : "Welcome";
+
   return (
     <SiteShell>
       <PageHeader
@@ -20,7 +37,7 @@ export default function Home() {
       <section className="mb-6 rounded-3xl border border-stone-200 bg-[#f0ebe3] p-5 sm:p-6">
         <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Welcome</p>
         <h3 className="mt-2 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
-          {projectConfig.name}
+          {welcomeHeading}
         </h3>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-stone-700 sm:text-base">
           This internal portal is being prepared as a secure, human-centred workspace for the St Peter’s Goes
