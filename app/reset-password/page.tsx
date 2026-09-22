@@ -19,17 +19,19 @@ export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const supabase = createSupabaseBrowserClient();
+    const supabase = createSupabaseBrowserClient({ detectSessionInUrl: false });
 
     if (!supabase) {
       return;
     }
 
+    const client = supabase;
+
     let isMounted = true;
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = client.auth.onAuthStateChange((event, session) => {
       if (!isMounted) {
         return;
       }
@@ -40,13 +42,36 @@ export default function ResetPasswordPage() {
       }
     });
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    async function establishRecoverySession() {
+      const code = new URLSearchParams(window.location.search).get("code");
+
+      if (code) {
+        const { error: exchangeError } = await client.auth.exchangeCodeForSession(code);
+
+        if (exchangeError) {
+          if (isMounted) {
+            setError("This password reset link is invalid or has expired. Request a new reset email to continue.");
+            setIsCheckingSession(false);
+          }
+          return;
+        }
+      }
+
+      const { data: { session } } = await client.auth.getSession();
+
       if (!isMounted) {
         return;
       }
 
       setHasSession(Boolean(session));
       setIsCheckingSession(false);
+    }
+
+    establishRecoverySession().catch(() => {
+      if (isMounted) {
+        setError("This password reset link is invalid or has expired. Request a new reset email to continue.");
+        setIsCheckingSession(false);
+      }
     });
 
     return () => {
@@ -74,7 +99,7 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    const supabase = createSupabaseBrowserClient();
+    const supabase = createSupabaseBrowserClient({ detectSessionInUrl: false });
 
     if (!supabase) {
       setError("Authentication is not configured. Please add the required Supabase environment variables.");
