@@ -105,7 +105,7 @@ export async function updateSession(request: NextRequest) {
     return supabaseResponse;
   }
 
-  if (isProtectedPath(pathname) && !isApproved) {
+  if (isProtectedPath(pathname) && !isApproved && !isAdmin) {
     const pendingUrl = new URL("/pending-approval", request.url);
     return NextResponse.redirect(pendingUrl);
   }
