@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FacetMosaic } from "@/components/ui/facet-mosaic";
 
 export function PageHeader({
   title,
@@ -10,7 +11,9 @@ export function PageHeader({
   actions?: Array<{ label: string; href?: string; onClick?: () => void; variant?: "primary" | "secondary" }>;
 }) {
   return (
-    <div className="page-panel geometric-accent mb-6 rounded-[1.75rem] px-5 py-5 sm:px-6 md:flex md:items-end md:justify-between md:gap-4">
+    <div className="page-panel page-panel--strong architectural-surface mb-6 rounded-[1.75rem] px-5 py-5 sm:px-6 md:flex md:items-end md:justify-between md:gap-4">
+      <FacetMosaic className="facet-mosaic header-facet-field" />
+
       <div className="relative z-10">
         <p className="section-tag">Projected Histories</p>
         <h2 className="mt-3 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">{title}</h2>

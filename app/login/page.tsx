@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { FacetMosaic } from "@/components/ui/facet-mosaic";
 
 const INITIAL_FORM = {
   email: "",
@@ -66,7 +67,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f4ef] px-4 py-8 text-stone-800 sm:px-6 lg:px-8">
+    <div className="architectural-surface min-h-screen bg-[#f7f4ef] px-4 py-8 text-stone-800 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <div className="mb-6 flex items-center justify-between">
           <Link
@@ -77,9 +78,9 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        <div className="grid min-h-[calc(100vh-8rem)] overflow-hidden rounded-[2rem] border border-stone-200 bg-[#fbfaf8] shadow-[0_18px_60px_rgba(28,25,23,0.08)] lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="flex flex-col justify-between border-b border-stone-200 bg-[#efe9e1] p-6 sm:p-8 lg:border-b-0 lg:border-r">
-            <div>
+        <div className="relative grid min-h-[calc(100vh-8rem)] overflow-hidden rounded-[2rem] border border-stone-200 bg-[#fbfaf8] shadow-[0_18px_60px_rgba(28,25,23,0.08)] lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="architectural-surface flex flex-col border-b border-stone-200 bg-[#efe9e1] p-6 sm:p-8 lg:border-b-0 lg:border-r">
+            <div className="relative z-10">
               <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">
                 Projected Histories
               </p>
@@ -92,7 +93,9 @@ export default function LoginPage() {
               </p>
             </div>
 
-            <div className="mt-8 rounded-3xl border border-stone-300 bg-[#f7f4ef] p-5">
+            <FacetMosaic className="facet-mosaic login-facet-field" />
+
+            <div className="relative z-10 mt-8 rounded-3xl border border-stone-300 bg-[#f7f4ef] p-5 shadow-[0_14px_26px_rgba(23,31,38,0.06)]">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-500">
                 Access note
               </p>
@@ -100,7 +103,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-center p-6 sm:p-8">
+          <div className="relative flex items-center justify-center p-6 sm:p-8">
             <div className="w-full max-w-md">
               <div className="mb-6">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-500">

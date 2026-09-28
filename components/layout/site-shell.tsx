@@ -11,7 +11,7 @@ function SidebarItem({ label, href, current }: { label: string; href: string; cu
       <Link
         href={href}
         className={[
-          "group flex items-center rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors",
+          "group relative flex items-center rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors",
           current
             ? "border-[var(--heritage-blue)] bg-[var(--heritage-blue)] text-white shadow-[0_8px_18px_rgba(15,91,122,0.25)]"
             : "border-transparent bg-transparent text-stone-300 hover:border-white/10 hover:bg-white/5 hover:text-white",
@@ -123,7 +123,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               <div className="flex items-center gap-2 sm:gap-3">
                 <button
                   type="button"
-                  className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-medium text-stone-700 hover:border-[var(--heritage-blue)]/30 hover:text-[var(--heritage-blue-deep)]"
+                  className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-medium text-stone-700 shadow-[0_8px_16px_rgba(15,91,122,0.05)] hover:border-[var(--heritage-blue)]/30 hover:text-[var(--heritage-blue-deep)]"
                   aria-label="View notifications"
                 >
                   Alerts <span className="ml-1 text-stone-400">(0)</span>
@@ -131,12 +131,12 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-medium text-stone-700 transition-colors hover:border-[var(--heritage-blue)]/30 hover:text-[var(--heritage-blue-deep)]"
+                  className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-medium text-stone-700 shadow-[0_8px_16px_rgba(15,91,122,0.05)] transition-colors hover:border-[var(--heritage-blue)]/30 hover:text-[var(--heritage-blue-deep)]"
                 >
                   Logout
                 </button>
                 <div className="flex items-center gap-3 rounded-xl border border-stone-300 bg-white px-2.5 py-1.5 shadow-[0_8px_18px_rgba(15,91,122,0.08)]">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--charcoal)] text-sm font-semibold text-white">
+                  <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-[var(--charcoal)] text-sm font-semibold text-white">
                     PH
                   </div>
                   <div className="hidden text-left sm:block">

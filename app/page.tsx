@@ -3,6 +3,7 @@ import { ActivityPreview, MyWorkPreview } from "@/components/dashboard/placehold
 import { ProjectStatusCard } from "@/components/dashboard/project-status-card";
 import { TimelinePreview } from "@/components/dashboard/timeline-preview";
 import { PageHeader } from "@/components/ui/page-header";
+import { FacetMosaic } from "@/components/ui/facet-mosaic";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -34,16 +35,20 @@ export default async function Home() {
         ]}
       />
 
-      <section className="mb-6 rounded-3xl border border-stone-200 bg-[#f0ebe3] p-5 sm:p-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Welcome</p>
-        <h3 className="mt-2 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
-          {welcomeHeading}
-        </h3>
-        <p className="mt-3 max-w-3xl text-sm leading-6 text-stone-700 sm:text-base">
-          This internal portal is being prepared as a secure, human-centred workspace for the St Peter’s Goes
-          Digital project. The current build establishes the visual identity, navigation system, and placeholder
-          pages needed for the next phases of development.
-        </p>
+      <section className="architectural-surface mb-6 min-h-64 overflow-hidden rounded-[2rem] border border-stone-200 bg-[#f0ebe3] p-5 sm:p-6">
+        <FacetMosaic className="facet-mosaic dashboard-facet-field" fit="stretch" />
+
+        <div className="relative z-10 max-w-full py-5 sm:max-w-[58%] sm:py-8">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Welcome</p>
+          <h3 className="mt-2 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+            {welcomeHeading}
+          </h3>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-stone-700 sm:text-base">
+            This internal portal is being prepared as a secure, human-centred workspace for the St Peter’s Goes
+            Digital project. The current build establishes the visual identity, navigation system, and placeholder
+            pages needed for the next phases of development.
+          </p>
+        </div>
       </section>
 
       <ProjectStatusCard />
