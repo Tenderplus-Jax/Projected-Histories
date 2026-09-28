@@ -13,8 +13,8 @@ function SidebarItem({ label, href, current }: { label: string; href: string; cu
         className={[
           "group flex items-center rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors",
           current
-            ? "border-stone-900 bg-stone-900 text-stone-50"
-            : "border-transparent bg-transparent text-stone-600 hover:border-stone-200 hover:bg-stone-100 hover:text-stone-900",
+            ? "border-[var(--heritage-blue)] bg-[var(--heritage-blue)] text-white shadow-[0_8px_18px_rgba(15,91,122,0.25)]"
+            : "border-transparent bg-transparent text-stone-300 hover:border-white/10 hover:bg-white/5 hover:text-white",
         ].join(" ")}
       >
         <span className="truncate">{label}</span>
@@ -30,7 +30,7 @@ function MobileNavItem({ label, href, current }: { label: string; href: string; 
       className={[
         "flex items-center justify-between rounded-xl border px-3 py-2 text-sm font-medium transition-colors",
         current
-          ? "border-stone-900 bg-stone-900 text-stone-50"
+          ? "border-[var(--heritage-blue)] bg-[var(--heritage-blue)] text-white"
           : "border-stone-200 bg-white text-stone-700",
       ].join(" ")}
     >
@@ -60,18 +60,18 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f4ef] text-stone-800">
+    <div className="site-shell min-h-screen text-stone-800">
       <div className="mx-auto flex min-h-screen max-w-[1800px]">
-        <aside className="hidden w-[280px] shrink-0 border-r border-stone-200 bg-[#f2efe9] p-5 lg:flex lg:flex-col">
-          <div className="mb-8 flex items-center gap-3 border-b border-stone-200 pb-5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-stone-800 bg-stone-900 text-sm font-semibold text-stone-50">
+        <aside className="hidden w-[280px] shrink-0 border-r border-[var(--border)] bg-[rgba(18,24,28,0.98)] p-5 text-stone-100 lg:flex lg:flex-col">
+          <div className="mb-8 flex items-center gap-3 border-b border-white/10 pb-5">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/20 bg-[var(--heritage-blue)] text-sm font-semibold text-white shadow-[0_8px_18px_rgba(15,91,122,0.35)]">
               PH
             </div>
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-300">
                 PROJECT
               </p>
-              <h1 className="text-lg font-semibold text-stone-900">{projectConfig.name}</h1>
+              <h1 className="text-lg font-semibold text-white">{projectConfig.name}</h1>
             </div>
           </div>
 
@@ -88,13 +88,13 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             </ul>
           </nav>
 
-          <div className="mt-6 rounded-2xl border border-stone-300 bg-stone-50 p-3">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">
+          <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-3">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-300">
               Settings
             </p>
             <Link
               href="/settings"
-              className="mt-2 inline-flex items-center rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-medium text-stone-700 transition-colors hover:border-stone-400 hover:text-stone-900"
+              className="mt-2 inline-flex items-center rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-medium text-stone-100 transition-colors hover:border-[var(--heritage-blue)]/60 hover:bg-[var(--heritage-blue)]/10"
             >
               Admin / Settings
             </Link>
@@ -102,7 +102,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="border-b border-stone-200 bg-[#fbfaf8]/90 backdrop-blur supports-[backdrop-filter]:bg-[#fbfaf8]/80">
+          <header className="border-b border-[var(--border)] bg-[rgba(255,255,255,0.78)] backdrop-blur supports-[backdrop-filter]:bg-[rgba(255,255,255,0.82)]">
             <div className="flex items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
               <div className="flex min-w-0 items-center gap-3">
                 <button
@@ -113,7 +113,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
                   ☰
                 </button>
                 <div className="min-w-0">
-                  <p className="truncate text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">
+                  <p className="truncate text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--stone-600)]">
                     {projectConfig.subtitle}
                   </p>
                   <p className="truncate text-sm text-stone-700">{projectConfig.location}</p>
@@ -123,7 +123,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               <div className="flex items-center gap-2 sm:gap-3">
                 <button
                   type="button"
-                  className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-medium text-stone-700"
+                  className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-medium text-stone-700 hover:border-[var(--heritage-blue)]/30 hover:text-[var(--heritage-blue-deep)]"
                   aria-label="View notifications"
                 >
                   Alerts <span className="ml-1 text-stone-400">(0)</span>
@@ -131,12 +131,12 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-medium text-stone-700 transition-colors hover:border-stone-400 hover:text-stone-900"
+                  className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-medium text-stone-700 transition-colors hover:border-[var(--heritage-blue)]/30 hover:text-[var(--heritage-blue-deep)]"
                 >
                   Logout
                 </button>
-                <div className="flex items-center gap-3 rounded-xl border border-stone-300 bg-white px-2.5 py-1.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-stone-900 text-sm font-semibold text-stone-50">
+                <div className="flex items-center gap-3 rounded-xl border border-stone-300 bg-white px-2.5 py-1.5 shadow-[0_8px_18px_rgba(15,91,122,0.08)]">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--charcoal)] text-sm font-semibold text-white">
                     PH
                   </div>
                   <div className="hidden text-left sm:block">
@@ -154,7 +154,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <div className="border-t border-stone-200 bg-white lg:hidden">
+      <div className="border-t border-[var(--border)] bg-[rgba(255,255,255,0.8)] lg:hidden">
         <nav className="flex gap-2 overflow-x-auto px-3 py-3" aria-label="Mobile navigation">
           {navigationItems.map((item) => (
             <MobileNavItem

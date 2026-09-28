@@ -10,20 +10,20 @@ export function PageHeader({
   actions?: Array<{ label: string; href?: string; onClick?: () => void; variant?: "primary" | "secondary" }>;
 }) {
   return (
-    <div className="mb-6 flex flex-col gap-4 border-b border-stone-200 pb-5 md:flex-row md:items-end md:justify-between">
-      <div>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-500">Projected Histories</p>
-        <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">{title}</h2>
-        {description ? <p className="mt-2 max-w-3xl text-sm text-stone-600">{description}</p> : null}
+    <div className="page-panel geometric-accent mb-6 rounded-[1.75rem] px-5 py-5 sm:px-6 md:flex md:items-end md:justify-between md:gap-4">
+      <div className="relative z-10">
+        <p className="section-tag">Projected Histories</p>
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">{title}</h2>
+        {description ? <p className="mt-2 max-w-3xl text-sm leading-6 text-stone-600">{description}</p> : null}
       </div>
 
       {actions && actions.length > 0 ? (
-        <div className="flex flex-wrap gap-2">
+        <div className="relative z-10 mt-4 flex flex-wrap gap-2 md:mt-0">
           {actions.map((action, index) => {
             const baseClasses =
               action.variant === "primary"
-                ? "bg-stone-900 text-stone-50 hover:bg-stone-700"
-                : "border border-stone-300 bg-white text-stone-700 hover:border-stone-400 hover:text-stone-900";
+                ? "bg-[var(--heritage-blue)] text-white hover:bg-[var(--heritage-blue-deep)]"
+                : "border border-stone-300 bg-white/90 text-stone-700 hover:border-[var(--heritage-blue)]/30 hover:text-[var(--heritage-blue-deep)]";
 
             if (action.href) {
               return (
